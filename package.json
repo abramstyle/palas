@@ -1,6 +1,6 @@
 {
   "name": "palas",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Node.js project scaffolding generator based on Koa.js.",
   "main": "./scripts/create.js",
   "repository": "https://github.com/abramstyle/palas",
