@@ -1,0 +1,22 @@
+FROM 'node:latest'
+
+WORKDIR /%{target}
+
+COPY yarn.lock ./
+COPY package.json ./
+RUN yarn
+
+COPY ./ /%{target}
+COPY entrypoint.sh /usr/local/bin/
+
+EXPOSE 5359
+# ENV DEBUG=yes
+ARG NODE_ENV
+ARG ENABLE_LOG
+ARG DEBUG
+ENV NODE_ENV=${NODE_ENV}
+ENV ENABLE_LOG=${ENABLE_LOG}
+ENV DEBUG=${DEBUG}
+ENTRYPOINT ["entrypoint.sh"]
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD curl -fs http://localhost:5359/test/health-check || exit 1

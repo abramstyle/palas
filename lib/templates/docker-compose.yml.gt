@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "0265:9265"
+    volumes:
+      - ./app:/%{target}/app
+      - ./client:/%{target}/client
+      - ./config:/%{target}/config
+      - ./constants:/%{target}/constants
+      - ./helpers:/%{target}/helpers
+      - ./public:/%{target}/public
+      - ./.env:/%{target}/.env
+      - ./entrypoint.sh:/%{target}/entrypoint.sh
+      - ./mockdb.js:/%{target}/mockdb.js
+      - ./nodemon.json:/%{target}/nodemon.json
+      - ./package.json:/%{target}/package.json
+      - ./server.js:/%{target}/server.js
+      - ./db.js:/%{target}/db.js
+    environment:
+      - NODE_ENV=development
+      - REGION=aws-bj
+      - ENABLE_LOG=yes
+  redis:
+    image: "redis:latest"

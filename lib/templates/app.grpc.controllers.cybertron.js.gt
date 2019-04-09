@@ -1,0 +1,48 @@
+function generateCybertronController() {
+  return {
+    getAutobots(call, callback) {
+      callback(null, {autobots: autobots});
+    },
+    getAutobot(call, callback) {
+      const {id} = call.request;
+      const autobot = autobots.find(autobot => autobot.id === id);
+      callback(null, autobot);
+    },
+    dispatchBots(call, callback) {
+      const {autobotIds} = call.request;
+      let autobotIndex = 0;
+      let tid = null;
+      function sendAutobot() {
+        if (autobotIndex >= autobotIds.length) {
+          call.end();
+          clearTimeout(tid);
+          return;
+        }
+        const autobotRequest = autobotIds[autobotIndex];
+
+        const autobot = autobots.find(autobot => autobot.id === autobotRequest.id);
+        call.write(autobot);
+        autobotIndex ++;
+
+        setTimeout(sendAutobot, 1000);
+      }
+
+      sendAutobot();
+    },
+    transformBots(call, callback) {
+      call.on('data', (autobotRequest) => {
+        const autobot = autobots.find(autobot => autobot.id === autobotRequest.id);
+        const transformedAutobot = Object.assign({}, autobot, {
+          attack: autobot.attack * 2,
+        });
+
+        call.write(transformedAutobot);
+      });
+      call.on('end', () => {
+        call.end();
+      });
+    }
+  }
+}
+
+module.exports = generateCybertronController;

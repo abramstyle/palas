@@ -1,0 +1,11 @@
+const startHttpServer = require('./http');
+<% if (options.useGrpc) { %>
+const startGrpcServer = require('./grpc');
+<% } %>
+
+async function startApp() {
+  await Promise.all([startHttpServer()<% if(options.useGrpc ) { %>, startGrpcServer() <% } %>]);
+  console.log('server started.');
+}
+
+module.exports = startApp;

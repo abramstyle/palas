@@ -1,0 +1,28 @@
+const path = require('path');
+const protoLoader = require('@grpc/proto-loader');
+const grpc = require('grpc');
+const config = require('../../config/app.config');
+
+const generateCybertronController = require('./controllers/cybertron');
+const cybertronController = generateCybertronController();
+
+async function startGrpcServer() {
+  const server = new grpc.Server();
+  const { version } = require('../../package.json');
+
+  const packageDefinition = await protoLoader.load('cybertron.proto', {
+    includeDirs: [
+      path.resolve(__dirname, './protos/'),
+    ]
+  });
+
+  const { cybertronServer } = grpc.loadPackageDefinition(packageDefinition);
+
+  server.addService(cybertronServer.Cybertron.service, cybertronController);
+
+  server.bind(`0.0.0.0:${config.grpc.port}`, grpc.ServerCredentials.createInsecure());
+  server.start();
+  console.log('%s v%s served with grpc on port %s', config.app.name, version, config.grpc.port);
+}
+
+module.exports = startGrpcServer;

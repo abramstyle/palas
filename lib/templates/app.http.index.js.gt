@@ -1,0 +1,26 @@
+const path = require('path');
+const Koa = require('koa');
+const config = require('../../config/app.config');
+const koaLogger = require('koa-logger');
+const router = require('./routes');
+const serve = require('koa-static');
+
+async function startHttpServer() {
+  const app = new Koa();
+  const { version } = require('../../package.json');
+  app.version = version;
+
+  app.use(koaLogger());
+  app.use(serve(path.resolve(__dirname, './protos')));
+
+  router(app);
+
+  return new Promise((resolve) => {
+    app.listen(config.http.port, () => {
+      console.log('%s v%s served with http on port %s', config.app.name, version, config.http.port);
+      resolve();
+    });
+  });
+};
+
+module.exports = startHttpServer;

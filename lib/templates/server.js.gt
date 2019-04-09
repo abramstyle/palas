@@ -1,0 +1,13 @@
+const dotenv = require('dotenv');
+const startApp = require('./app');
+const envHelper = require('./helpers/env');
+
+process.on('unhandledRejection', (error) => {
+  console.log('unhandled rejection: ', error);
+});
+
+dotenv.config();
+
+envHelper.config().then(() => {
+  startApp();
+});

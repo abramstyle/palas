@@ -1,0 +1,38 @@
+{
+  "name": "palas",
+  "version": "0.0.1",
+  "description": "A Node.js project scaffolding generator based on Koa.js.",
+  "main": "./scripts/create.js",
+  "repository": "https://github.com/abramstyle/palas",
+  "author": "Abram.Zhao",
+  "bin": {
+    "palas": ".bin/palas.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ./"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "5.3.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-immutable": "^1.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.0",
+    "eslint-plugin-security": "^1.4.0",
+    "jest": "^23.1.0"
+  },
+  "dependencies": {
+    "debug": "^3.1.0",
+    "fanas": "^0.8.19",
+    "fs-extra": "^6.0.1",
+    "inquirer": "^6.2.0",
+    "lodash": "^4.17.11",
+    "pre-commit": "^1.2.2",
+    "yargs": "^11.0.0"
+  }
+}

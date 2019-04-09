@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.helloworld";
+option java_outer_classname = "HelloWorldProto";
+option objc_class_prefix = "HLW";
+
+package cybertronServer;
+
+// The greeting service definition.
+service Cybertron {
+  // Sends a greeting
+  rpc GetAutobots (Empty) returns (AutobotsReply) {}
+  rpc GetAutobot (AutobotRequest) returns (AutobotReply) {}
+  rpc DispatchBots (AutobotsRequest) returns (stream AutobotReply) {}
+  rpc TransformBots (stream AutobotRequest) returns (stream AutobotReply) {}
+}
+
+message Empty {
+}
+
+message AutobotsReply {
+  repeated AutobotReply autobots = 1;
+}
+
+message AutobotRequest {
+  int32 id = 1;
+}
+
+message AutobotReply {
+  string name = 1;
+  string attack = 2;
+}
+
+message AutobotsRequest {
+  repeated AutobotRequest autobotIds = 1;
+}

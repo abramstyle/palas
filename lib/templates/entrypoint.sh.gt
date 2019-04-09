@@ -1,0 +1,20 @@
+#!/bin/bash
+
+case $NODE_ENV in
+	development)
+		export CONFIG_ENV=DEV
+		exec yarn run dev;;
+	staging)
+		export CONFIG_ENV=FAT
+		exec yarn run server;;
+	release)
+		export CONFIG_ENV=UAT
+		exec yarn run server;;
+	production)
+		export CONFIG_ENV=DEV
+		exec yarn run server;;
+	*)
+		export CONFIG_ENV=DEV
+		exec yarn run dev;;
+esac
+exit 0

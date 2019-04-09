@@ -1,0 +1,21 @@
+const path = require('path');
+
+const { env } = process;
+
+module.exports = {
+  logs: {
+    path: path.resolve('logs'),
+    logname: `logstash_%{target}-${env.NODE_ENV}`,
+  },
+  app: {
+    name: `%{name} (${env.NODE_ENV})`,
+  },
+  http: {
+    port: env.SERVER_PORT || 9265,
+    keys: [env.APP_KEY],
+  },
+  grpc: {
+    port: env.SERVER_PORT || 16325,
+    keys: [env.APP_KEY],
+  }
+};

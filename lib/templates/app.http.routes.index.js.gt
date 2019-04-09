@@ -1,0 +1,15 @@
+function routes(app) {
+  const Router = require('koa-router');
+  const router = new Router();
+
+  router.get('/', (ctx, next) => {
+    ctx.body = 'Hello Palas.';
+    ctx.status = 200;
+  });
+
+  app
+  .use(router.routes())
+  .use(router.allowedMethods());
+}
+
+module.exports = routes;
